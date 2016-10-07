@@ -14,16 +14,17 @@ public class SQLcon {
 		}
 		
 		//database connection info
-		String dbhost = "jdbc:mysql://localhost/javasite";
-		String dbuser = "root";
-		String dbpass = "";
+		String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/javasite";
+		String dbuser = "phpmyadmin";
+		String dbpass = "phpmyadmin";
 		
 		//create database connection
 		try {
 			c = DriverManager.getConnection(dbhost, dbuser, dbpass);
 		}
 		catch(SQLException s) {
-			System.out.print("db didnt connect");
+			String msg = s.getSQLState();
+			System.out.print(msg);
 			return null;
 		}
 		return c;

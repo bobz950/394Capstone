@@ -6,7 +6,7 @@ import spark.Route;
 import java.sql.*;
 
 public class CControl implements Route {
-	public Connection con;
+
 	public User u1;
 	public String content = "";
 	
@@ -24,7 +24,7 @@ public class CControl implements Route {
 		}
 		//if not, ensure u1 is null
 		else this.u1 = null;
-		con = SQLcon.connect();
+
 		content = content(req, res);
 		String template = App.view.Template.getContent();
 		

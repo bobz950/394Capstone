@@ -1,5 +1,7 @@
 package App;
 import static spark.Spark.*;
+
+import java.io.IOException;
 import java.sql.*;
 
 import spark.Request;
@@ -16,7 +18,9 @@ public class Site {
 		staticFiles.location("/views");
 			
 		
-		get("/", new Home());
+		get("/", new Home("Home"));
+		
+		get("/info", new Info("Info"));	
 		
 		//not necessary anymore after creating user widget
 		get("/login", new Login());	
@@ -31,9 +35,17 @@ public class Site {
 		get("/page/:name", (req, res) -> { return new App.view.Page(req.params(":name")).handle(req, res); });
 		
 		get("/admin", new Admin("Admin Center", false));
+
 		
-		get("/t", new Test2());	
+		get("/profile", new App.UserView.UserProfile("User Profile"));	
 		
+		get ("/dashboard", new App.UserView.Dashboard("Dashboard"));
+		
+		get ("/whatif", new App.UserView.Whatif("What If"));
+		
+		get ("/classsearch", new App.UserView.ClassSearch("Class Search"));
+		
+		get ("/degree", new App.UserView.DegreeReq("Degree Requirements"));
 		
 		
 	}

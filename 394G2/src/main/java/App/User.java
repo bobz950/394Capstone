@@ -9,36 +9,56 @@ public class User {
 	public String username;
 	private String password;
 	private String uPassword;
-	public Connection con;
+	public int id;
 	public boolean isValid = true;
 	
 	public User(String name, String pass) {
-		this.con = SQLcon.connect(); //get sql connection
 		this.username = name;
 		this.password = pass;
-		this.isValid = this.getValues(this.username); //get values from db and check if user exists
+		//get values from db and check if user exists
+		try {
+			this.isValid = this.getValues(this.username);
+		} catch (SQLException s) {
+			System.out.print(s.getSQLState());
+		} 
 		if (this.isValid) this.checkPass(this.password); //if user exists check password
 	}
 	
 	
 	//returns false if user not in table
-	public boolean getValues(String user) {
+	public boolean getValues(String user) throws SQLException {
+		boolean completed = false;
+		Connection con = SQLcon.connect(); //get sql connection
 		try {
 			Statement st = con.createStatement();
-			String query = "SELECT * FROM users WHERE name='" + user + "'";
-			ResultSet r = st.executeQuery(query);
-			if (!r.next()) return false;
-			else this.uPassword = r.getString("password"); // get real pass from db
-			
+			try {
+				String query = "SELECT * FROM User WHERE Login='" + user + "'";
+				ResultSet r = st.executeQuery(query);
+				try {
+					if (!r.next()) completed = false; //user name not in database
+					else {
+						this.uPassword = r.getString("Password"); //get real pass from db
+						this.id = r.getInt("ID"); //store user id;
+						completed = true;
+					}
+				}
+				finally {
+					r.close();
+				}
+
+			}
+			finally {
+				st.close();
+			}
 		}
-		catch (SQLException s) {
-			System.out.print("getValues Failed");
-			System.out.print(s.getSQLState());
-			return false;
+		finally {
+			con.close();
 		}
-		return true;
+
+		return completed;
 	
 	}
+	
 	
 	
 	//checks if password is a match
@@ -79,5 +99,6 @@ public class User {
 		System.out.print(hashed);
 		return hashed;
 	}
+
 	
 }

@@ -21,37 +21,64 @@ public class Page extends App.CControl {
 	}
 	
 	public String content(Request req, Response res) {
-		if (fromDb && checkDb()) {
-			this.content = getDbContent();
+		boolean dbcheck;
+		try {
+			dbcheck = checkDb();
+		} catch (SQLException s) {
+			dbcheck = false;
+		}
+		if (fromDb && dbcheck) {
+			//this.content = getDbContent();
 			return this.content;
 		}
 		return display(req, res);
 	}
 	
-	public boolean checkDb() {
+	public boolean checkDb() throws SQLException {
+		boolean result = false;
+		Connection con = App.SQLcon.connect();
 		try {
 			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT id FROM pages WHERE pagename='" + theName + "'");
-			return true;
+			try {
+				ResultSet r = st.executeQuery("SELECT id, pagecontent FROM pages WHERE pagename='" + theName + "'");
+				try {
+					if (r.next()) {
+						result = true;
+						this.content = r.getString("pagecontent");
+					}
+				}
+				finally {
+					r.close();
+				}
+				
+			}
+			finally {
+				st.close();
+			}
 		}
-		catch (SQLException s) {
-			return false;
+		finally {
+			con.close();
 		}
+		return result;
+
 		
 	}
 	
-	public String getDbContent() {
-		try {
-			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT pagecontent FROM pages WHERE pagename='" + theName + "'");
-			if (r.next()) return r.getString("pagecontent");
-		}
-		catch (SQLException s) {
-			return s.getSQLState();
-		}
-		return "Page not found";
-		
-	}
+//	public String getDbContent() {
+//		try {
+//			Connection con = App.SQLcon.connect();
+//			Statement st = con.createStatement();
+//			ResultSet r = st.executeQuery("SELECT pagecontent FROM pages WHERE pagename='" + theName + "'");
+//			con.close();
+//			st.close();
+//			if (r.next()) return r.getString("pagecontent");
+//		}
+//		catch (SQLException s) {
+//			return s.getSQLState();
+//		}
+//		return "Page not found";
+//		
+//	}
 	
 	//override this if creating page not from database
 	public String display(Request req, Response res) {

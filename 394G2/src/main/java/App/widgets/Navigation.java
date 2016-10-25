@@ -12,7 +12,7 @@ public class Navigation implements Widget {
 	}
 
 	public String display() {
-		String str = "";
+		String str = "<li><a href='/'>Home</a></li>";
 		try {
 			Connection con = App.SQLcon.connect();
 			Statement st = con.createStatement();

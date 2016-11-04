@@ -48,6 +48,7 @@ public class User {
 
 			}
 			finally {
+				System.out.println(st.toString());
 				st.close();
 			}
 		}

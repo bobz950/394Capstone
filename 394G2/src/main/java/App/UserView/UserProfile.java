@@ -1,6 +1,7 @@
 package App.UserView;
 import java.sql.SQLException;
 
+import App.User;
 import App.UserControl;
 import spark.Request;
 import spark.Response;
@@ -13,7 +14,7 @@ public class UserProfile extends App.view.Page {
 	
 	@Override
 	public String display(Request req, Response res) {
-		App.User u = UserControl.getUser(req);
+		User u = UserControl.getUser(req);
 		if (u != null) {
 			u1 = u; //refresh u1
 			String type;

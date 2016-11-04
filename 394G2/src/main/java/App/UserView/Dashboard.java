@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import spark.Request;
 import spark.Response;
+import App.widgets.StudentProfile;
 
 public class Dashboard extends App.view.Page {
 	
@@ -30,6 +31,7 @@ public class Dashboard extends App.view.Page {
 		result += "<li><a href='#'>Edit Profile Info</a></li>";
 		
 		result += "</ul>";
+		result += new StudentProfile(u).display(req, res); 
 		return result;
 	}
 	

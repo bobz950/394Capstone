@@ -45,6 +45,8 @@ public class Site {
 		
 		get ("/classsearch", new App.UserView.ClassSearch("Class Search"));
 		
+		post ("/csearch", new App.UserView.ClassSearchHandler("Class Search"));
+		
 		get ("/degree", new App.UserView.DegreeReq("Degree Requirements"));
 		
 		

@@ -4,6 +4,7 @@ import spark.Request;
 import spark.Response;
 
 import App.User;
+import App.DisplayControl;
 import App.SQLcon;
 import java.sql.*;
 import java.util.HashMap;
@@ -24,9 +25,9 @@ public class StudentProfile implements Widget {
 		HashMap<String, String> results = runStatement(query);
 		String html = getHTML();
 		html = html.replaceAll("<~~!!@@StudentID@@!!~~>", results.get("StudentID"));
-		html = html.replaceAll("<~~!!@@CareerID@@!!~~>", results.get("CareerID"));
-		html = html.replaceAll("<~~!!@@ProgramID@@!!~~>", results.get("ProgramID"));
-		html = html.replaceAll("<~~!!@@MajorID@@!!~~>", results.get("MajorID"));
+		html = html.replaceAll("<~~!!@@CareerID@@!!~~>", DisplayControl.careerDisplay(results.get("CareerID")));
+		html = html.replaceAll("<~~!!@@ProgramID@@!!~~>", DisplayControl.programDisplay(results.get("ProgramID")));
+		html = html.replaceAll("<~~!!@@MajorID@@!!~~>", DisplayControl.majorDisplay(results.get("MajorID")));
 		html = html.replaceAll("<~~!!@@ConcentrationID@@!!~~>", results.get("ConcentrationID"));
 		html = html.replaceAll("<~~!!@@DateOfEnrollment@@!!~~>", results.get("DateOfEnrollment"));
 		html = html.replaceAll("<~~!!@@CumulativeGPA@@!!~~>", results.get("CumulativeGPA"));

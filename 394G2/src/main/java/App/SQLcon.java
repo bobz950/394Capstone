@@ -88,7 +88,7 @@ public class SQLcon {
 	}
 	
 	//multi result query using string params in prepared statement
-	//Param s for query, v for statement vars, c for column names, p - # of query variables. r = # of fields to get
+	//Param s for query, v for statement params, c for column names, p - # of query params. r = # of fields to get
 	public static HashMap<String, String> multiResultQuery(String s, String[] v, String[] c, int p, int f) {
 		HashMap<String, String> result = new HashMap<String, String>();
 		Connection con = SQLcon.connect();

@@ -49,6 +49,7 @@ public class Site {
 		
 		get ("/degree", new App.UserView.DegreeReq("Degree Requirements"));
 		
+		post ("/degreesearch", new App.UserView.DegreeReqHandler("Degree Requirements"));
 		
 	}
 	

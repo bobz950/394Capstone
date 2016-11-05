@@ -1,5 +1,9 @@
 package App;
 import App.SQLcon;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 
 public class DisplayControl {
@@ -20,6 +24,17 @@ public class DisplayControl {
 		Integer majorID = Integer.valueOf(s);
 		String q = "SELECT Name FROM Major WHERE ID=" + majorID + ";";
 		return SQLcon.singleResultQuery(q, "Name");
+	}
+	
+	public static String getHTML(String loc) {
+		String html;
+		try {
+			html = new String(Files.readAllBytes(Paths.get(loc)));
+		} catch (IOException s) {
+			System.out.println("Could not get html");
+			html = " ";
+		}
+		return html;
 	}
 	
 

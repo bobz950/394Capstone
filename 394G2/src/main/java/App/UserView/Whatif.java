@@ -11,6 +11,7 @@ public class Whatif extends App.view.Page {
 
 	public Whatif(String name) {
 		super(name, false);
+		this.requireLogin = true;
 	}
 	
 	@Override

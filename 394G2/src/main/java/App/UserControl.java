@@ -168,6 +168,18 @@ public class UserControl {
 			return date;
 			
 		}
+		
+		public static String getAddress(String n) {
+			String query = "SELECT Address FROM User WHERE Login='" + n + "'";
+			String r = SQLcon.singleResultQuery(query,  "Address");
+			return r;
+		}
+		
+		public static String getPhone(String n) {
+			String query = "SELECT Phone FROM User WHERE Login='" + n + "'";
+			String r = SQLcon.singleResultQuery(query,  "Phone");
+			return r;
+		}
 	
 	
 	//(unfinished) Get all users from database. Return array of User objects.

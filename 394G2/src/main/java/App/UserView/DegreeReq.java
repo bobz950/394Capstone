@@ -11,6 +11,7 @@ public class DegreeReq extends App.view.Page {
 	
 	public DegreeReq(String name) {
 		super(name, false);
+		this.requireLogin = true;
 	}
 	
 	@Override

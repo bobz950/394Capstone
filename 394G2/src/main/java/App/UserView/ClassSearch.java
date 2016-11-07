@@ -11,6 +11,7 @@ public class ClassSearch extends App.view.Page {
 
 	public ClassSearch(String name) {
 		super(name, false);
+		this.requireLogin = true;
 	}
 	
 	@Override

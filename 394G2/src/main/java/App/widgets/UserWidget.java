@@ -23,28 +23,28 @@ public class UserWidget implements Widget {
 			if (thetype == 0) type = "Student";
 			else if (thetype == 1) type = "Faculty";
 			else type = "Administrator";
-			String result = "<h3 class='widgethead'>Welcome back to the site, " + u.getName() + "</h3>"
-							+ "<br><ul>"
-							+ "<li>Your Status: " + type + "</li>"
-							+ "<li><a href='/profile'>Your Profile</a></li>"
-							+ "<li><a href='/dashboard'>Your Dashboard</a></li>"
-							+ "<li><a href='/classsearch'>Course Search</a></li>"
-							+ "<li><a href='/degree'>Degree Requirements</a></li>";
-
-
-					if (type == "Student") result += "<li><a href='/whatif'>What-If Report</a></li>";
+			String result = "<div class='well widgethead'>Welcome back to the site, " + u.getName() + "</div>";
+			result += "<div class='list-group' id='usernav'>";
+			result += listitem("Your Status: " + type);
+			result += listitemurl("/profile", "Your Profile");				
+			result += listitemurl("/dashboard", "Your Dashboard");	
+			result += listitemurl("/classsearch", "Course Search");	
+			result += listitemurl("/degree", "Degree Requirements");	
+			if (type == "Student") result += listitemurl("/whatif", "When-If Report");	
 					
-					result += "</ul>"
-							+ "<br><form method='post' action='/logout'><input type='hidden' name='lasturl' value='" + req.url() + "'><br>"
-							+ "<input type='submit' value='Logout'></form>";
-					
-					return result;
+			result += "</div>";
+			String logout = App.DisplayControl.getHTML("layouts/logout.html");
+			logout = logout.replaceAll("<~~!!@@lasturl@@!!~~>", req.url());
+			
+			result += logout;
+			return result;
 		}
-		else return "<h3 class='widgethead'>Log in here: </h3><br><form method='post' action='/signin'>"
-				+ "<input id='name' name='name' type='text'><br>"
-				+ "<input id='password' name='password' type='text' text='password'>"
-				+ "<input type='hidden' name='lasturl' value='" + req.url() + "'>"
-				+ "<input type='submit'></form>";
+		else {
+			String html = App.DisplayControl.getHTML("layouts/loginform.html");
+			html = html.replaceAll("<~~!!@@lasturl@@!!~~>", req.url());
+			return html;
+		}
+
 	}
 	
 	@Override
@@ -52,5 +52,13 @@ public class UserWidget implements Widget {
 		return null;
 	}
 	
+	public String listitemurl(String url, String name) {
+		return "<a href='" + url + "'class='list-group-item'>" + name + "</a>";
+	}
+	
+	public String listitem(String msg) {
+		return "<li class='list-group-item active'>" + msg + "</li>";
+	}
+
 
 }

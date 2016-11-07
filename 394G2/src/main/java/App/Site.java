@@ -51,6 +51,8 @@ public class Site {
 		
 		post ("/degreesearch", new App.UserView.DegreeReqHandler("Degree Requirements"));
 		
+		get ("/editprofile", new App.UserView.UserProfileEdit("Edit User Profile"));
+		
 	}
 	
 	

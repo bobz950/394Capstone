@@ -8,6 +8,7 @@ public class Page extends App.CControl {
 	public String theName;
 	public boolean fromDb = true;
 	public String content;
+	public boolean requireLogin = false;
 	
 	//constructor to use if page is from database
 	public Page(String name) {
@@ -31,6 +32,7 @@ public class Page extends App.CControl {
 			//this.content = getDbContent();
 			return this.content;
 		}
+		if (this.requireLogin && req.session().attribute("user") == null) return "You must be logged in to view this content";
 		return display(req, res);
 	}
 	

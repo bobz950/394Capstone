@@ -22,12 +22,12 @@ public class ClassSearchHandler extends App.view.Page {
 		String subject = req.queryParams("subject");
 		String num = " " + req.queryParams("num");
 		//String query = "SELECT MajorID, ProgramID, Course_TypeID, AreaID, CreditHours, Long_Name, Description FROM Class WHERE Name =?";
-		String query = "SELECT MajorID, ProgramID, Course_TypeID, AreaID, CreditHours, Long_Name, Description, Name FROM Class WHERE Name LIKE ?";
+		String query = "SELECT ProgramID, CreditHours, Long_Name, Description, Name FROM Class WHERE Name LIKE ?";
 		if (num.length() < 2) num = "";
 		String name = "%" + subject + num + "%";
 		String[] params = {name};
-		String[] columns = {"MajorID", "ProgramID", "Course_TypeID", "AreaID", "CreditHours", "Long_Name", "Description", "Name"};
-		HashMap<String, String> resultMap = SQLcon.multiResultQuery(query, params, columns, 1, 8);
+		String[] columns = {"ProgramID","CreditHours", "Long_Name", "Description", "Name"};
+		HashMap<String, String> resultMap = SQLcon.multiResultQuery(query, params, columns, 1, 5);
 		if (resultMap.size() < 4) return "No classes found";
 		int numResults = Integer.valueOf(resultMap.get("Count"));
 		int i = 0;
@@ -36,7 +36,6 @@ public class ClassSearchHandler extends App.view.Page {
 			result = result.replaceAll("<~~!!@@classnum@@!!~~>",  resultMap.get(i + "Name"));
 			result = result.replaceAll("<~~!!@@name@@!!~~>", resultMap.get(i + "Long_Name"));
 			result = result.replaceAll("<~~!!@@description@@!!~~>", resultMap.get(i + "Description"));
-			result = result.replaceAll("<~~!!@@MajorID@@!!~~>", resultMap.get(i + "MajorID"));
 			result = result.replaceAll("<~~!!@@credits@@!!~~>", resultMap.get(i + "CreditHours"));
 			content += result;
 			i++;

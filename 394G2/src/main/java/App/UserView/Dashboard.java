@@ -10,7 +10,7 @@ public class Dashboard extends App.view.Page {
 	
 	public Dashboard(String name) {
 		super(name, false);
-		
+		this.requireLogin = true;
 	}
 	
 	public String display(Request req, Response res) {
@@ -28,7 +28,7 @@ public class Dashboard extends App.view.Page {
 		if (type == 2) result += "<li><a href='/admin'>Admin Center</a></li>";
 		if (type == 1) result += "<li><a href='#'>Faculty Center</a></li>";
 		if (type == 0) result += "<li><a href='#'>Student Center</a></li>";
-		result += "<li><a href='#'>Edit Profile Info</a></li>";
+		result += "<li><a href='/editprofile'>Edit Profile Info</a></li>";
 		
 		result += "</ul>";
 		result += new StudentProfile(u).display(req, res); 

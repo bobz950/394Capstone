@@ -10,6 +10,7 @@ public class UserProfile extends App.view.Page {
 
 	public UserProfile(String name) {
 		super(name, false);
+		this.requireLogin = true;
 	}
 	
 	@Override
@@ -58,39 +59,28 @@ public class UserProfile extends App.view.Page {
 			} catch (SQLException s) {
 				dateRegistered = "not available";
 			}
-			return layout(type, email, name, active, dateRegistered);
+			
+			String address = App.UserControl.getAddress(u1.username);
+			String phone = App.UserControl.getPhone(u1.username);
+			
+			String html = App.DisplayControl.getHTML("layouts/userprofile.html");
+			
+			return layout(type, email, name, active, dateRegistered, address, phone, html);
 		}
 		else return "not logged in";
 	}
 	
-	public String layout(String type, String email, String name[], String active, String date) {
+	public String layout(String type, String email, String name[], String active, String date, String address, String phone, String html) {
 		
-		return "<table class='tg'>"
-				+ "<tr>"
-				+ "<th>First Name: </th>"
-				+ "<th>" + name[0]  +"</th>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td>Last Name:</td>"
-				+ "<td>" + name[1]  +"</td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td>Type:</td>"
-				+ "<td>" + type  +"</td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td>Email:</td>"
-				+ "<td>" + email  +"</td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td>Activity:</td>"
-				+ "<td>" + active  +"</td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td>Date Registered:</td>"
-				+ "<td>" + date  +"</td>"
-				+ "</tr>"
-				+ "</table>";
+		html = html.replaceAll("<~~!!@@fname@@!!~~>", name[0]);
+		html = html.replaceAll("<~~!!@@lname@@!!~~>", name[1]);
+		html = html.replaceAll("<~~!!@@type@@!!~~>", type);
+		html = html.replaceAll("<~~!!@@email@@!!~~>", email);
+		html = html.replaceAll("<~~!!@@active@@!!~~>", active);
+		html = html.replaceAll("<~~!!@@date@@!!~~>", date);
+		html = html.replaceAll("<~~!!@@phone@@!!~~>", phone);
+		html = html.replaceAll("<~~!!@@address@@!!~~>", address);
+		return html;
 	}
 	
 }

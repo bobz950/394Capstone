@@ -28,6 +28,7 @@ public class CControl implements Route {
 		content = content(req, res);
 		String template = App.view.Template.getContent();
 		
+		template = template.replaceAll("<~~!!@@style@@!!~~>", DisplayControl.getHTML("layouts/style.css"));
 		template = template.replaceAll("<~~!!@@content@@!!~~>", this.content);
 		template = template.replaceAll("<~~!!@@nav@@!!~~>", new App.widgets.Navigation().display());
 		template = template.replaceAll("<~~!!@@user@@!!~~>", new App.widgets.UserWidget().display(req, res));

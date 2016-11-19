@@ -11,6 +11,12 @@ public class UserControl {
 		return (User) req.session().attribute("user");
 	}
 	
+	public static int getUserID(String n) {
+		String q = "SELECT ID From User WHERE Login='" + n + "'";
+		String result = SQLcon.singleResultQuery(q, "ID");
+		return Integer.valueOf(result);
+	}
+	
 	public static String logout(Request req, Response res) {
 		req.session().removeAttribute("user");
 		String lasturl = req.queryParams("lasturl");
@@ -45,6 +51,17 @@ public class UserControl {
 		}
 		return result;
 
+	}
+	
+	public static int getUserType(String n) {
+		int r = -1;
+		try {
+			r = getType(n);
+		}
+		catch (SQLException s) {
+			r = -2;
+		}
+		return r;
 	}
 	
 
@@ -103,6 +120,42 @@ public class UserControl {
 		}
 		return names;
 		
+	}
+	
+	public static String[] getName(int n) {
+		String names[] = {"Not Found", "Not Found"};
+		Connection con = SQLcon.connect();
+		try {
+			Statement st = con.createStatement();
+			try {
+				String q = "SELECT FName, LName FROM User WHERE ID=" + n;
+				ResultSet r = st.executeQuery(q);
+				if (!r.next()) return names;
+				names[0] = r.getString("FName");
+				names[1] = r.getString("LName");
+			}
+			catch (SQLException s) {
+				System.out.println("could not execute query");
+			}
+			finally {
+				try {
+					st.close();
+				} catch (SQLException e) {
+					System.out.println("could not close statement");
+				}
+			}
+		}
+		catch (SQLException s) {
+			System.out.println("could not connect to database");
+		}
+		finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				System.out.println("could not close sql connection");
+			}
+		}
+		return names;
 	}
 	
 	

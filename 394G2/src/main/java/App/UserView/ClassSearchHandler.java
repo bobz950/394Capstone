@@ -21,6 +21,8 @@ public class ClassSearchHandler extends App.view.Page {
 		String term = req.queryParams("term");
 		String subject = req.queryParams("subject");
 		String num = " " + req.queryParams("num");
+		boolean addEnroll = false;
+		if (req.queryParams("enroll").contains("yes")) addEnroll = true;
 		//String query = "SELECT MajorID, ProgramID, Course_TypeID, AreaID, CreditHours, Long_Name, Description FROM Class WHERE Name =?";
 		String query = "SELECT ProgramID, CreditHours, Long_Name, Description, Name FROM Class WHERE Name LIKE ?";
 		if (num.length() < 2) num = "";
@@ -37,6 +39,9 @@ public class ClassSearchHandler extends App.view.Page {
 			result = result.replaceAll("<~~!!@@name@@!!~~>", resultMap.get(i + "Long_Name"));
 			result = result.replaceAll("<~~!!@@description@@!!~~>", resultMap.get(i + "Description"));
 			result = result.replaceAll("<~~!!@@credits@@!!~~>", resultMap.get(i + "CreditHours"));
+			if (addEnroll) result = result.replaceAll("<~~!!@@enroll@@!!~~>", "<tr><td><form action='/enroll' method='post'><fieldset><input type='hidden' name='classname' value='" + resultMap.get(i + "Name")
+					+ "'><button id='submit' class='btn btn-primary'>Enroll</button></fieldset></form></td></tr>");
+			else result = result.replaceAll("<~~!!@@enroll@@!!~~>", "");
 			content += result;
 			i++;
 		}

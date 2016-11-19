@@ -16,9 +16,10 @@ public class SQLcon {
 		}
 		
 		//database connection info
-		String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/dev";
-		String dbuser = "phpmyadmin";
-		String dbpass = "phpmyadmin";
+		//String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/dev";
+		String dbhost = "jdbc:mysql://localhost/dev?autoReconnect=true&useSSL=false";
+		String dbuser = "root";
+		String dbpass = "";
 		
 		//create database connection
 		try {
@@ -43,6 +44,39 @@ public class SQLcon {
 		return st;
 	}
 	
+	public static int insertQuery(String q) {
+		int rows = 0;
+		Connection con = SQLcon.connect();
+		try {
+			Statement st = con.createStatement();
+			try {
+				rows += st.executeUpdate(q);
+			}
+			catch (SQLException s) {
+				System.out.println(s.getSQLState());
+				System.out.println(s.getMessage());
+			}
+			finally {
+				try {
+					st.close();
+				} catch (SQLException e) {
+					System.out.print("did not close statement");
+				}
+			}
+		}
+		catch (SQLException s) {
+			System.out.print("database connection failed");
+		}
+		finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rows;
+	}
+	
 	//param s is the query, param name is the column name to retrieve
 	public static String singleResultQuery(String s, String name) {
 		String result = "Not Available";
@@ -63,7 +97,7 @@ public class SQLcon {
 				}
 			}
 			catch (SQLException sq) {
-				System.out.println("could not execute query");
+				System.out.println("could not execute query11");
 			}
 			finally {
 				try {
@@ -116,7 +150,7 @@ public class SQLcon {
 				}
 			}
 			catch (SQLException sq) {
-				System.out.println("could not execute query");
+				System.out.println("could not execute query: " + s);
 			}
 			finally {
 				try {

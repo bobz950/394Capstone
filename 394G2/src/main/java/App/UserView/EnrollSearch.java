@@ -7,10 +7,10 @@ import java.nio.file.Paths;
 import spark.Request;
 import spark.Response;
 
-public class ClassSearch extends App.view.Page {
-
-	public ClassSearch(String name) {
-		super(name, false);
+public class EnrollSearch extends App.view.Page {
+	
+	public EnrollSearch(String n) {
+		super(n, false);
 		this.requireLogin = true;
 	}
 	
@@ -20,7 +20,7 @@ public class ClassSearch extends App.view.Page {
 		try {
 			html = new String(Files.readAllBytes(Paths.get("layouts/classsearch.html")));
 			html = html.replaceAll("<~~!!@@action@@!!~~>", "/csearch");
-			html = html.replaceAll("<~~!!@@enroll@@!!~~>", "no");
+			html = html.replaceAll("<~~!!@@enroll@@!!~~>", "yes");
 		} 
 		catch (IOException s) {
 			html = System.getProperty("user.dir");
@@ -29,5 +29,4 @@ public class ClassSearch extends App.view.Page {
 		return html;
 	
 	}
-
 }

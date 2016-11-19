@@ -41,18 +41,39 @@ public class Site {
 		
 		get ("/dashboard", new App.UserView.Dashboard("Dashboard"));
 		
+		get ("/studentcenter", new App.UserView.StudentCenter("Student Center"));
+		post ("/studentcenter", new App.UserView.StudentCenter("Student Center"));
+		
 		get ("/whatif", new App.UserView.Whatif("What If"));
 		
 		get ("/classsearch", new App.UserView.ClassSearch("Class Search"));
 		
-		post ("/csearch", new App.UserView.ClassSearchHandler("Class Search"));
+		get ("/enroll", new App.UserView.EnrollSearch("Class Search"));
 		
-		get ("/degree", new App.UserView.DegreeReq("Degree Requirements"));
+		post ("/enroll", new App.UserView.EnrollHandle("Enrollment"));
+		get ("/enroll", new App.UserView.StudentCenter("Enrollment"));
+		
+		post ("/csearch", new App.UserView.ClassSearchHandler("Class Search"));
+		get ("/csearch", new App.UserView.StudentCenter("Class Search"));
+		
+		get ("/degree", new App.UserView.DegreeReq("Degree Requistrements"));
 		
 		post ("/degreesearch", new App.UserView.DegreeReqHandler("Degree Requirements"));
+		get ("/degreesearch", new App.UserView.DegreeReq("Degree Requirements"));
 		
 		get ("/editprofile", new App.UserView.UserProfileEdit("Edit User Profile"));
 		
+		post ("/pathresult", new App.UserView.WhenIfResult("When If Result"));
+		
+		//get("/path", (req, res) -> { return new App.logic.ClassPathSearch(2, 1 , 2, 3, 3, 3, 3, "Spring").display(); });
+		
+		get("/studentlookup", new App.UserView.StudentLookup("Student Lookup"));
+		post ("/studentresult", new App.UserView.StudentLookupHandler("Student Result"));
+		get ("/studentresult", new App.UserView.StudentLookup("Student Lookup"));
+		post ("/modify", new App.UserView.StudentLookupHandler("Student Result"));
+		get ("/modify", new App.UserView.StudentLookup("Student Modify"));
+		
+		get ("/myclasses", new App.UserView.CurrentClasses("Your Classes"));
 	}
 	
 	

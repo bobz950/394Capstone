@@ -29,8 +29,15 @@ public class UserWidget implements Widget {
 			result += listitemurl("/profile", "Your Profile");				
 			result += listitemurl("/dashboard", "Your Dashboard");	
 			result += listitemurl("/classsearch", "Course Search");	
-			result += listitemurl("/degree", "Degree Requirements");	
-			if (type == "Student") result += listitemurl("/whatif", "When-If Report");	
+			result += listitemurl("/degree", "Degree Requirements");
+			result += listitemurl("/whatif", "When-If Report");	
+			if (type == "Student") {
+				result += listitemurl("/studentcenter", "Student Center");	
+			}
+			if (type == "Faculty") {
+				result += listitemurl("/myclasses", "Your Open Classes");	
+			}
+			if (type == "Administrator") result += listitemurl("/studentlookup", "Student Search");	
 					
 			result += "</div>";
 			String logout = App.DisplayControl.getHTML("layouts/logout.html");

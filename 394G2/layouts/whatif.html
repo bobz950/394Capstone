@@ -1,4 +1,5 @@
-<form class="form-horizontal">
+
+<form class="form-horizontal" method="post" action="pathresult">
 <fieldset>
 
 
@@ -20,9 +21,13 @@
   <label class="col-md-4 control-label" for="concentration">Concentration</label>
   <div class="col-md-4">
     <select id="concentration" name="concentration" class="form-control">
-      <option value="1">Software Development</option>
-      <option value="2">Software Engineering</option>
-      <option value="3">Game Development</option>
+      <option value="2">Software and System Development</option>
+      <option value="3">Theory</option>
+      <option value="4">Data Science</option>
+      <option value="5">Database Systems</option>
+      <option value="6">Artificial Intelligence</option>
+      <option value="7">Software Engineering</option>
+      <option value="8">Multimedia</option>
     </select>
   </div>
 </div>
@@ -32,42 +37,55 @@
   <label class="col-md-4 control-label" for="start">Starting Quarter</label>
   <div class="col-md-4">
     <select id="start" name="start" class="form-control">
-      <option value="1">Fall</option>
-      <option value="2">Winter</option>
-      <option value="2">Spring</option>
+      <option value="Fall">Fall</option>
+      <option value="Winter">Winter</option>
+      <option value="Spring">Spring</option>
+      <option value="Summer">Summer</option>
     </select>
   </div>
 </div>
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="fall">Number of Fall Classes</label>
+  <label class="col-md-4 control-label" for="start">Starting Year</label>
+  <div class="col-md-4">
+    <select id="year" name="year" class="form-control">
+      <option value="2017">2017-2018</option>
+      <option value="2018">2018-2019</option>
+      <option value="2019">2019-2020</option>
+      <option value="2020">2020-2021</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label">Number of Fall Classes</label>
   <div class="col-md-4"> 
-    <label class="radio-inline" for="radios-0">
-      <input type="radio" name="fall" id="fall-00" value="0" checked="checked">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="0">
       0
     </label> 
-    <label class="radio-inline" for="radios-0">
-      <input type="radio" name="fall" id="fall-0" value="1" checked="checked">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="1" checked="checked">
       1
     </label> 
-    <label class="radio-inline" for="radios-1">
-      <input type="radio" name="radios" id="fall-1" value="2">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="2">
       2
     </label> 
-    <label class="radio-inline" for="radios-2">
-      <input type="radio" name="fall" id="fall-2" value="3">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="3">
       3
     </label> 
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="fall" id="fall-4" value="4">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="4">
       4
     </label>
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="fall" id="radios-5" value="5">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="5">
       5
     </label>
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="fall" id="fall-6" value="6">
+    <label class="radio-inline">
+      <input type="radio" name="fall" value="6">
       6
     </label>
   </div>
@@ -75,34 +93,34 @@
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="winter">Number of Winter Classes</label>
+  <label class="col-md-4 control-label">Number of Winter Classes</label>
   <div class="col-md-4"> 
-    <label class="radio-inline" for="radios-00">
-      <input type="radio" name="winter" id="winter-00" value="0" checked="checked">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="0">
       0
     </label> 
-    <label class="radio-inline" for="radios-0">
-      <input type="radio" name="winter" id="winter-0" value="1" checked="checked">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="1" checked="checked">
       1
     </label> 
-    <label class="radio-inline" for="radios-1">
-      <input type="radio" name="winter" id="winter-1" value="2">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="2">
       2
     </label> 
-    <label class="radio-inline" for="radios-2">
-      <input type="radio" name="winter" id="winter-2" value="3">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="3">
       3
     </label> 
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="winter" id="winter-3" value="4">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="4">
       4
     </label>
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="winter" id="winter-4" value="5">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="5">
       5
     </label>
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="winter" id="winter-5" value="6">
+    <label class="radio-inline">
+      <input type="radio" name="winter" value="6">
       6
     </label>
   </div>
@@ -110,40 +128,72 @@
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="fall">Number of Spring Classes</label>
+  <label class="col-md-4 control-label">Number of Spring Classes</label>
   <div class="col-md-4"> 
-    <label class="radio-inline" for="radios-0">
-      <input type="radio" name="spring" id="radios-0" value="0" checked="checked">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="0">
       0
     </label> 
-    <label class="radio-inline" for="radios-0">
-      <input type="radio" name="spring" id="spring-00" value="1" checked="checked">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="1" checked="checked">
       1
     </label> 
-    <label class="radio-inline" for="radios-1">
-      <input type="radio" name="spring" id="spring-1" value="2">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="2">
       2
     </label> 
-    <label class="radio-inline" for="radios-2">
-      <input type="radio" name="spring" id="spring-2" value="3">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="3">
       3
     </label> 
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="spring" id="spring-3" value="4">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="4">
       4
     </label>
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="spring" id="spring-4" value="5">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="5">
       5
     </label>
-    <label class="radio-inline" for="radios-3">
-      <input type="radio" name="spring" id="spring-5" value="6">
+    <label class="radio-inline">
+      <input type="radio" name="spring" value="6">
       6
     </label>
   </div>
 </div>
-
-
+<div class="form-group">
+  <label class="col-md-4 control-label">Number of Summer Classes</label>
+  <div class="col-md-4"> 
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="0">
+      0
+    </label> 
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="1" checked="checked">
+      1
+    </label> 
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="2">
+      2
+    </label> 
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="3">
+      3
+    </label> 
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="4">
+      4
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="5">
+      5
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="summer" value="6">
+      6
+    </label>
+  </div>
+</div>
+<~~!!@@asuser@@!!~~>
 <input type='submit' value='Submit'>
 
 </fieldset>

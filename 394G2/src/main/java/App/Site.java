@@ -3,6 +3,7 @@ import static spark.Spark.*;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
 
 import spark.Request;
 import spark.Response;
@@ -63,10 +64,18 @@ public class Site {
 		
 		get ("/editprofile", new App.UserView.UserProfileEdit("Edit User Profile"));
 		
-		post ("/pathresult", new App.UserView.WhenIfResult("When If Result"));
+		//post ("/pathresult", new App.UserView.WhenIfRun("When If Result"));
 		
-		//get("/path", (req, res) -> { return new App.logic.ClassPathSearch(2, 1 , 2, 3, 3, 3, 3, "Spring").display(); });
+		post("/pathresult", (request, response) -> {
+
+			App.UserView.WhenIfResult a = new App.UserView.WhenIfResult("Wehen If Result");
+			String s = new String((String)a.handle(request, response));
+			a = null;
+			return s;
+		});
 		
+		//get("/path", (req, res) -> { return new App.logic.ClassPathSearch(2, 1 , 2, 3, 3, 3, 3, "Spring"); });
+
 		get("/studentlookup", new App.UserView.StudentLookup("Student Lookup"));
 		post ("/studentresult", new App.UserView.StudentLookupHandler("Student Result"));
 		get ("/studentresult", new App.UserView.StudentLookup("Student Lookup"));
@@ -74,6 +83,9 @@ public class Site {
 		get ("/modify", new App.UserView.StudentLookup("Student Modify"));
 		
 		get ("/myclasses", new App.UserView.CurrentClasses("Your Classes"));
+		
+		get ("/degreechange", new App.UserView.DegreeChange("Your Degree"));
+		post ("/degreechange", new App.UserView.DegreeChange("Your Degree"));
 	}
 	
 	

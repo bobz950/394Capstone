@@ -22,7 +22,8 @@ public class StudentProfile implements Widget {
 
 	public String display(Request req, Response res) {
 		String query = "SELECT * FROM Student_Profile WHERE UserID=" + usr.id + ";";
-		HashMap<String, String> results = runStatement(query);
+		String q = "SELECT * FROM Student_Profile INNER JOIN Area ON Student_Profile.ConcentrationID = Area.ID WHERE UserID=" + usr.id + ";";
+		HashMap<String, String> results = runStatement(q);
 		String html = getHTML();
 		html = html.replaceAll("<~~!!@@StudentID@@!!~~>", results.get("StudentID"));
 		html = html.replaceAll("<~~!!@@CareerID@@!!~~>", DisplayControl.careerDisplay(results.get("CareerID")));
@@ -53,7 +54,7 @@ public class StudentProfile implements Widget {
 						h.put("CareerID", r.getString("CareerID"));
 						h.put("ProgramID", r.getString("ProgramID"));
 						h.put("MajorID", r.getString("MajorID"));
-						h.put("ConcentrationID", r.getString("ConcentrationID"));
+						h.put("ConcentrationID", r.getString("Name"));
 						h.put("DateOfEnrollment", r.getString("DateOfEnrollment"));
 						h.put("CumulativeGPA", r.getString("CumulativeGPA"));
 					}

@@ -11,6 +11,7 @@ public class User {
 	private String uPassword;
 	public int id;
 	public boolean isValid = true;
+	public boolean isGuest = false;
 	
 	public User(String name, String pass) {
 		this.username = name;
@@ -22,6 +23,12 @@ public class User {
 			System.out.print(s.getSQLState());
 		} 
 		if (this.isValid) this.checkPass(this.password); //if user exists check password
+	}
+	
+	public User() {
+		this.isGuest = true;
+		this.username = "guest";
+		this.id = -1;
 	}
 	
 	

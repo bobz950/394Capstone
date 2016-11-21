@@ -20,9 +20,12 @@ public class Signin implements Route {
 			res.redirect(lasturl);
 			return "login success!!!";
 		}
-		else {
-			return "nope you suck";
+		else if (req.queryParams("guest") != null){
+			req.session().attribute("guest", "true");
+			res.redirect(lasturl);
+			return "Logging in as Guest";
 		}
+		else return "Login Failed. Wrong username or password. <a href='" + lasturl + "'>Go Back </a>";
 
 	}
 

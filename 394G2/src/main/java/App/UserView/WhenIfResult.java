@@ -13,6 +13,7 @@ public class WhenIfResult extends App.view.Page {
 		super(name, false);
 	}
 	
+	
 	public String display(Request req, Response res) {
 		int uid;
 		if (req.queryParams("asuser") != null) uid = Integer.valueOf(req.queryParams("asuser"));
@@ -29,7 +30,7 @@ public class WhenIfResult extends App.view.Page {
 		App.logic.ClassPathSearch thePath = new App.logic.ClassPathSearch(uid, major, conc, fall, winter, spring, summer, start);
 		if (thePath.flag == 1) return "Sorry, there is no path to graduation";
 		HashMap<String, String> orderMap = new HashMap<String, String>();
-		String[] html = {App.DisplayControl.getHTML("layouts/pathresult.html")};
+		String[] html = {new String(App.DisplayControl.getHTML("layouts/pathresult.html"))};
 		int c = 1;
 		for (Map<String, Integer> e : thePath.order) {
 			Iterator itt = e.entrySet().iterator();
@@ -38,29 +39,30 @@ public class WhenIfResult extends App.view.Page {
 			this.show((String)d.getKey(), html, thePath, orderMap, year);
 			c++;
 		}
+		//thePath = null;
 		return html[0];
 	}
 	
 	public void show(String term, String[] html, App.logic.ClassPathSearch path, HashMap<String, String> o, int year) {
-		String classes = "";
+		String classes = new String();
 		ArrayList<String> t = path.resultTerms.get(term);
 		int c = 1;
 		for (String cls : t) {
 			if (cls == "---") {
-				html[0] = html[0].replaceFirst("<~~!!@@" + o.get(term) + "@@!!~~>", classes);
-				if (classes.length() > 0) html[0] = html[0].replaceFirst("<~~!!@@" + o.get(term) + "TITLE@@!!~~>", "<tr><td style='background-color:#337ab7' class='list-group-item active'>" + term + " " + (year + c++) +  "</td></tr>");
+				html[0] = new String(html[0].replaceFirst("<~~!!@@" + o.get(term) + "@@!!~~>", classes));
+				if (classes.length() > 0) html[0] = new String(html[0].replaceFirst("<~~!!@@" + o.get(term) + "TITLE@@!!~~>", new String("<tr><td style='background-color:#337ab7' class='list-group-item active'>") + term + " " + (year + c++) +  "</td></tr>"));
 				classes = "";
 			}
 			else {
 				String qu = "SELECT Long_Name, Description FROM Class WHERE Name='" + cls + "'";
 				HashMap<String, String> r = App.SQLcon.multiResultQuery(qu, new String[]{}, new String[]{"Long_Name", "Description"}, 0, 2);
 				int count = Integer.valueOf(r.get("Count"));
-				if (count > 0) classes += "<tr><td><a href='#' data-toggle='popover' title='" + r.get("0Long_Name") + "' data-content='" + r.get("0Description") + "'>" + cls + "</a></td></tr>";
-				else classes += "<tr><td>" + cls + "</td></tr>";
+				if (count > 0) classes = classes.concat("<tr><td><a href='#' data-toggle='popover' title='" + r.get("0Long_Name") + "' data-content='" + new String(r.get("0Description")) + "'>" + cls + "</a></td></tr>");
+				else classes = classes.concat("<tr><td>" + cls + "</td></tr>");
 			}
 		}
-		html[0] = html[0].replaceAll("<~~!!@@" + o.get(term) + "@@!!~~>", "");
-		html[0] = html[0].replaceAll("<~~!!@@" + o.get(term) + "TITLE@@!!~~>", "");
+		html[0] = html[0].replaceAll("<~~!!@@".concat(o.get(term)).concat("@@!!~~>"), "");
+		html[0] = html[0].replaceAll("<~~!!@@".concat(o.get(term)).concat("TITLE@@!!~~>"), "");
 	}
 	
 	

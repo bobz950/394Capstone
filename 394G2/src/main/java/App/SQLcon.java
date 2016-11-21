@@ -20,6 +20,9 @@ public class SQLcon {
 		String dbhost = "jdbc:mysql://localhost/dev?autoReconnect=true&useSSL=false";
 		String dbuser = "root";
 		String dbpass = "";
+		//String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/dev";
+		//String dbuser = "phpmyadmin";
+		//String dbpass = "phpmyadmin";
 		
 		//create database connection
 		try {
@@ -135,8 +138,12 @@ public class SQLcon {
 					int counter = 0;
 					while (r.next()) {
 						for (int i=0; i<f; i++) {
-							String value = r.getString(c[i]);
-							result.put(counter + c[i], value);
+							String value = new String(r.getString(c[i]));
+							StringBuilder sb = new StringBuilder();
+							sb.append(counter);
+							sb.append(c[i]);
+							result.put(sb.toString(), value);
+							sb = null;
 						}
 						counter++;
 					}

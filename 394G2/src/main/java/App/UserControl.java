@@ -8,7 +8,9 @@ public class UserControl {
 	
 	//returns User object of current logged in user.
 	public static User getUser(Request req) {
-		return (User) req.session().attribute("user");
+		if (req.session().attribute("user") != null) return (User) req.session().attribute("user");
+		if (req.session().attribute("guest") != null) return new User();
+		else return null;
 	}
 	
 	public static int getUserID(String n) {
@@ -19,6 +21,7 @@ public class UserControl {
 	
 	public static String logout(Request req, Response res) {
 		req.session().removeAttribute("user");
+		req.session().removeAttribute("guest");
 		String lasturl = req.queryParams("lasturl");
 		res.redirect(lasturl);
 		return "logged out";
@@ -130,9 +133,18 @@ public class UserControl {
 			try {
 				String q = "SELECT FName, LName FROM User WHERE ID=" + n;
 				ResultSet r = st.executeQuery(q);
-				if (!r.next()) return names;
-				names[0] = r.getString("FName");
-				names[1] = r.getString("LName");
+				try {
+					if (!r.next()) {
+						r.close();
+						return names;
+					}
+					names[0] = r.getString("FName");
+					names[1] = r.getString("LName");
+				}
+				finally {
+					r.close();
+				}
+				
 			}
 			catch (SQLException s) {
 				System.out.println("could not execute query");

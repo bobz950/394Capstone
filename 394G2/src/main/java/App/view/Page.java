@@ -7,8 +7,9 @@ import java.sql.*;
 public class Page extends App.CControl {
 	public String theName;
 	public boolean fromDb = true;
-	public String content;
+	//public String content;
 	public boolean requireLogin = false;
+	public boolean restrictGuest = true;
 	
 	//constructor to use if page is from database
 	public Page(String name) {
@@ -30,9 +31,15 @@ public class Page extends App.CControl {
 		}
 		if (fromDb && dbcheck) {
 			//this.content = getDbContent();
-			return this.content;
+			return this.content.toString();
 		}
-		if (this.requireLogin && req.session().attribute("user") == null) return "You must be logged in to view this content";
+		
+		if (this.requireLogin && req.session().attribute("user") == null) {
+			String no = "You must be logged in to view this content";
+			if (restrictGuest) return no;
+			if (!restrictGuest && req.session().attribute("guest") == null) return no;
+			if (!restrictGuest && req.session().attribute("guest") != null) return display(req, res);
+		}
 		return display(req, res);
 	}
 	
@@ -46,7 +53,7 @@ public class Page extends App.CControl {
 				try {
 					if (r.next()) {
 						result = true;
-						this.content = r.getString("pagecontent");
+						this.content.append(r.getString("pagecontent"));
 					}
 				}
 				finally {

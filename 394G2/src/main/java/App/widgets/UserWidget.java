@@ -13,22 +13,20 @@ public class UserWidget implements Widget {
 	public String display(Request req, Response res) {
 		String type;
 		User u = UserControl.getUser(req);
+		if (u == null && req.session().attribute("guest") != null) u = new User(); 
 		if (u != null) {
 			int thetype;
-			try {
-				thetype = App.UserControl.getType(u.getName());
-			} catch (SQLException s) {
-				thetype = -1;
-			}
-			if (thetype == 0) type = "Student";
+			thetype = App.UserControl.getUserType(u.getName());
+			if (thetype < 0) type = "Guest";
+			else if (thetype == 0) type = "Student";
 			else if (thetype == 1) type = "Faculty";
 			else type = "Administrator";
 			String result = "<div class='well widgethead'>Welcome back to the site, " + u.getName() + "</div>";
 			result += "<div class='list-group' id='usernav'>";
 			result += listitem("Your Status: " + type);
-			result += listitemurl("/profile", "Your Profile");				
-			result += listitemurl("/dashboard", "Your Dashboard");	
-			result += listitemurl("/classsearch", "Course Search");	
+			if (type == "Student") result += listitemurl("/degreechange", "Change your Enrollment");				
+			if (type != "Guest") result += listitemurl("/dashboard", "Your Dashboard");	
+			if (type != "Guest") result += listitemurl("/classsearch", "Course Search");	
 			result += listitemurl("/degree", "Degree Requirements");
 			result += listitemurl("/whatif", "When-If Report");	
 			if (type == "Student") {

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import App.SQLcon;
 
-public class ClassPathSearch {
+public final class ClassPathSearch {
 	//priority
 	public int area;
 	public int major;
@@ -71,6 +71,14 @@ public class ClassPathSearch {
 		String areas = SQLcon.singleResultQuery(q, "AreasAmount");
 		return Integer.valueOf(areas);
 		
+	}
+	
+	public void clearclasses() {
+		Iterator it = theClasses.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, HashMap<String, String>> e = (Map.Entry<String, HashMap<String, String>>)it.next();
+			e.getValue().clear();
+		}
 	}
 	
 	private ArrayList<String> getRequirementsNeeded(int userid) {
@@ -142,7 +150,7 @@ public class ClassPathSearch {
 		return this.finished;
 	}
 	
-	private void fill(String term, int cycles) {
+	private int fill(String term, int cycles) {
 		//find requirement class (loop until failure)
 		//find concentration class (loop until failure)
 		//find elective (loop until failure)
@@ -183,7 +191,7 @@ public class ClassPathSearch {
 					requirementClasses.add(theClass);
 					buffer.add(theClass);
 					termlist.add(theClass);
-					System.out.println("req: " + theClass);
+					//System.out.println("req: " + theClass);
 					//set start index to where it previously left search
 					startIndex = classFound+1;
 					classesfound++;
@@ -210,7 +218,7 @@ public class ClassPathSearch {
 				if (classFound > -1) {
 					/** add to collection */ 
 					String theClass = this.concClassesAvailable.get(classFound);
-					System.out.println("conc: " + theClass);
+					//System.out.println("conc: " + theClass);
 					concClasses.add(theClass);
 					buffer.add(theClass);
 					termlist.add(theClass);
@@ -236,7 +244,7 @@ public class ClassPathSearch {
 					if (classFound > -1) {
 						/** add to collection */ 
 						String theClass = this.electiveClasses.get(classFound);
-						System.out.println("elect " + term + " " + theClass);
+						//System.out.println("elect " + term + " " + theClass);
 						electClasses.add(theClass);
 						buffer.add(theClass);
 						termlist.add(theClass);
@@ -254,13 +262,15 @@ public class ClassPathSearch {
 		termlist.add("---");
 		//add to classestaken
 		if (buffer.size() > 0) this.classesTaken.addAll(buffer);
-		
+		buffer = null;
+		termlist = null;
 		//update requirements needed
 		//this.updateReqs(requirementClasses);
 		if (this.requirementsNeeded.size() == 0 && this.checkConc() && this.checkElectives()) this.finished = true;
 		System.out.println("req size: " + this.requirementsNeeded.size());
 		if (this.checkConc()) System.out.println("checkconc true");
 		if (this.checkElectives()) System.out.println("checkelectiv true");
+		return 1;
 	}
 	
 	private void updateReqs(ArrayList<String> c) {
@@ -268,6 +278,7 @@ public class ClassPathSearch {
 		for (String n : this.requirementsNeeded) {
 			if (!c.contains(n)) tmp.add(n);
 		}
+		this.requirementsNeeded = null;
 		this.requirementsNeeded = tmp;
 	}
 	
@@ -276,7 +287,7 @@ public class ClassPathSearch {
 		if (index >= size) return -1;
 		for (int i = index; i < size; i++) {
 			if (checkPreq(this.requirementsNeeded.get(i))) {
-				String terms = this.theClasses.get("Required").get(this.requirementsNeeded.get(i));
+				String terms = new String(this.theClasses.get("Required").get(this.requirementsNeeded.get(i)));
 				if (terms.contains(term)) return i;
 			}
 		}
@@ -288,7 +299,7 @@ public class ClassPathSearch {
 		if (index >= size) return -1;
 		for (int i = index; i < size; i++) {
 			if (checkPreq(this.concClassesAvailable.get(i))) {
-				String terms = this.theClasses.get(((Integer)area).toString()).get(this.concClassesAvailable.get(i));
+				String terms = new String(this.theClasses.get(((Integer)area).toString()).get(this.concClassesAvailable.get(i)));
 				if (checkTaken(this.concClassesAvailable.get(i), buf)) {
 					if (terms.contains(term)) return i;
 				}
@@ -303,7 +314,7 @@ public class ClassPathSearch {
 		if (index >= size) return -1;
 		for (int i = index; i < size; i++) {
 			if (checkPreq(this.electiveClasses.get(i))) {
-				String terms = SQLcon.singleResultQuery("SELECT TypicallyOffered FROM Class WHERE Name='" + this.electiveClasses.get(i) + "'", "TypicallyOffered");
+				String terms = new String(SQLcon.singleResultQuery("SELECT TypicallyOffered FROM Class WHERE Name='" + this.electiveClasses.get(i) + "'", "TypicallyOffered"));
 				if (checkTaken(this.electiveClasses.get(i), buf)) {
 					if (terms.contains(term)) return i;
 				}
@@ -430,18 +441,18 @@ public class ClassPathSearch {
 		String majorid = ((Integer)major).toString();
 		String areaid = ((Integer)area).toString();
 		String name;
-		if (area == 1) name = "Required";
-		else name = areaid;
+		if (area == 1) name = new String("Required");
+		else name = new String(areaid);
 		//get required classes
 		String q = "SELECT Major_Classes.ClassID, Class.TypicallyOffered FROM Major_Classes INNER JOIN Class ON Major_Classes.ClassID = Class.Name WHERE Major_Classes.MajorID=? AND Major_Classes.AreaID=?";
 		String[] params = {majorid, areaid};
-		String[] columns = {"ClassID", "TypicallyOffered"};
+		String[] columns = {new String("ClassID"), new String("TypicallyOffered")};
 		HashMap<String, String> result = SQLcon.multiResultQuery(q, params, columns, 2, 2);
 		int reqCount = Integer.valueOf(result.get("Count"));
 		this.theClasses.put(name, new HashMap<String, String>());
 		HashMap<String, String> required = theClasses.get(name);
 		for (int i = 0; i < reqCount; i++) {
-			required.put(result.get(i + "ClassID"), result.get(i + "TypicallyOffered"));
+			required.put(result.get(new String(i + new String("ClassID"))), result.get(new String(i + new String("TypicallyOffered"))));
 		}
 		
 	}
@@ -474,7 +485,6 @@ public class ClassPathSearch {
 			Map.Entry d = ((Map.Entry<String, Integer>)itt.next());
 			result +=this.show((String)d.getKey());
 		}
-	
 		return result;
 	}
 	
@@ -488,4 +498,5 @@ public class ClassPathSearch {
 		}
 		return result;
 	}
+	
 }

@@ -69,7 +69,7 @@ public class StudentCenter extends App.view.Page {
 		int cid = Integer.valueOf(id);
 		String q = "DELETE FROM Course_Taken WHERE ID=" + cid;
 		int r = SQLcon.insertQuery(q);
-		if (r < 1) return "Could not drop class";
-		return "Successfully dropped class";
+		if (r < 1) return "<div class='alert alert-danger'>Could not drop class</div>";
+		return "<div class='alert alert-success' role='alert'>Successfully Dropped Class!</div>";
 	}
 }

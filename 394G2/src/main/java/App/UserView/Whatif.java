@@ -15,6 +15,7 @@ public class Whatif extends App.view.Page {
 	public Whatif(String name) {
 		super(name, false);
 		this.requireLogin = true;
+		this.restrictGuest = false;
 	}
 	
 	@Override
@@ -28,7 +29,10 @@ public class Whatif extends App.view.Page {
 		}
 		String asuser = "<div class='form-group'><label class='col-md-4 control-label'>Run report as student:</label>";
 		asuser += "<div class='col-md-4'><select name='asuser' class='form-control'><~~!!@@useroption@@!!~~></select></div></div>";
-		int type = UserControl.getUserType(UserControl.getUser(req).username);
+		int type;
+		if (UserControl.getUser(req) == null) type = -2;
+		if (req.session().attribute("guest") != null) type = -1;
+		else type = UserControl.getUserType(UserControl.getUser(req).username);
 		if (type > 0) {
 			String options = "";
 			html = html.replaceAll("<~~!!@@asuser@@!!~~>", asuser);

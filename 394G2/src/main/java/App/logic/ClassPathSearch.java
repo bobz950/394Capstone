@@ -154,7 +154,7 @@ public final class ClassPathSearch {
 		//find requirement class (loop until failure)
 		//find concentration class (loop until failure)
 		//find elective (loop until failure)
-		System.out.println(term + "-------------------------------");
+		//System.out.println(term + "-------------------------------");
 		ArrayList<String> requirementClasses = new ArrayList<String>();
 		ArrayList<String> concClasses = new ArrayList<String>();
 		ArrayList<String> electClasses = new ArrayList<String>();
@@ -267,7 +267,7 @@ public final class ClassPathSearch {
 		//update requirements needed
 		//this.updateReqs(requirementClasses);
 		if (this.requirementsNeeded.size() == 0 && this.checkConc() && this.checkElectives()) this.finished = true;
-		System.out.println("req size: " + this.requirementsNeeded.size());
+		//System.out.println("req size: " + this.requirementsNeeded.size());
 		if (this.checkConc()) System.out.println("checkconc true");
 		if (this.checkElectives()) System.out.println("checkelectiv true");
 		return 1;

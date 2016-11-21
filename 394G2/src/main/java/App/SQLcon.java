@@ -17,12 +17,12 @@ public class SQLcon {
 		
 		//database connection info
 		//String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/dev";
-		String dbhost = "jdbc:mysql://localhost/dev?autoReconnect=true&useSSL=false";
-		String dbuser = "root";
-		String dbpass = "";
-		//String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/dev";
-		//String dbuser = "phpmyadmin";
-		//String dbpass = "phpmyadmin";
+		//String dbhost = "jdbc:mysql://localhost/dev?autoReconnect=true&useSSL=false";
+		//String dbuser = "root";
+		//String dbpass = "";
+		String dbhost = "jdbc:mysql://phpmyadmin.c9dcmkhb1jiz.us-west-2.rds.amazonaws.com:3306/dev";
+		String dbuser = "phpmyadmin";
+		String dbpass = "phpmyadmin";
 		
 		//create database connection
 		try {

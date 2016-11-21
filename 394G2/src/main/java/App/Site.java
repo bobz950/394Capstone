@@ -74,6 +74,8 @@ public class Site {
 			return s;
 		});
 		
+		get("/pathresult", new App.UserView.Whatif("Whatif"));
+		
 		//get("/path", (req, res) -> { return new App.logic.ClassPathSearch(2, 1 , 2, 3, 3, 3, 3, "Spring"); });
 
 		get("/studentlookup", new App.UserView.StudentLookup("Student Lookup"));

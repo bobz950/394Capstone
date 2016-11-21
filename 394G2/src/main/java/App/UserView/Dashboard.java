@@ -26,8 +26,8 @@ public class Dashboard extends App.view.Page {
 			type = -1;
 		}
 		String navs = "";
-		if (type == 2) navs += "<li><a href='/admin'>Admin Center</a></li>";
-		if (type == 1) navs += "<li><a href='#'>Faculty Center</a></li>";
+		//if (type == 2) navs += "<li><a href='/admin'>Admin Center</a></li>";
+		//if (type == 1) navs += "<li><a href='#'>Faculty Center</a></li>";
 		if (type == 0) navs += "<li><a href='/studentcenter'>Student Center</a></li>";
 		navs += "<li><a href='/editprofile'>Edit Profile Info</a></li>";
 		String navhtml = DisplayControl.getHTML("layouts/dashnav.html");
